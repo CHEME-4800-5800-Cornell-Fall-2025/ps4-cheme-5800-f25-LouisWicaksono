@@ -75,16 +75,14 @@ function solve(model::MySimulatedAnnealingMinimumVariancePortfolioAllocationProb
         
         # TODO: Implement simulated annealing logic here -
         for k in 1:KL
-
+            # 1. Random perturbation
             candidate_w = current_w .+ β .* randn(length(current_w))
 
-            # enforce non-negativity
+            # 2. Enforce non-negativity
             candidate_w = max.(candidate_w, 1e-8)
 
-            # enforce sum-to-one exactly
+            # 3. Enforce sum-to-one
             candidate_w = candidate_w ./ sum(candidate_w)
-
-            # handles the equality constraints; we keep the raw candidate_w.
 
             # Compute objective value for candidate
             candidate_f = _objective_function(candidate_w, ḡ, Σ̂, R, μ, ρ)
